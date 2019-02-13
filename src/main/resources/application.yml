@@ -1,2 +1,18 @@
+spring:
+  profiles.active: production
+ 
+---
+
+spring:
+  profiles: development
+
 busca-xml:
-  uri: http://localhost:8080/
+   uri: http://localhost:8099/
+  
+---
+
+spring:
+  profiles: production
+
+busca-xml:
+   uri: http://localhost:8010/
