@@ -2,7 +2,13 @@ spring:
   profiles:
     active:
     - prod
-  
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        use_sql_comments: true
+        format_sql: true
+        type: trace
 ---
 
 spring:
@@ -13,10 +19,6 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-        show_sql: true
-        use_sql_comments: true
-        format_sql: true
-        type: trace
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/ponto_inteligente?useTimezone=true&serverTimezone=UTC
