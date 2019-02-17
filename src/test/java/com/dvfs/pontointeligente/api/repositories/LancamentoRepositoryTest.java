@@ -46,7 +46,7 @@ public class LancamentoRepositoryTest extends TestHelper{
 	public void testBuscarLancamentosPorFuncionarioIdPaginado() {
 		PageRequest page = PageRequest.of(0, 5);
 		Page<Lancamento> lancamentos = this.lancamentoRepository.findByFuncionarioId(funcionarioId, page);
-		assertEquals(6, lancamentos.getNumberOfElements());
+		assertEquals(5, lancamentos.getNumberOfElements());
 	}
 	
 	@After
