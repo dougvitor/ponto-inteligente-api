@@ -90,7 +90,6 @@ public class Funcionario implements Serializable {
 		this.cpf = cpf;
 	}
 
-	@Column(nullable = true)
 	public BigDecimal getValorHora() {
 		return valorHora;
 	}
@@ -104,7 +103,6 @@ public class Funcionario implements Serializable {
 		this.valorHora = valorHora;
 	}
 
-	@Column(nullable = false)
 	public Float getQtdHorasTrabalhoDia() {
 		return qtdHorasTrabalhoDia;
 	}
@@ -118,7 +116,6 @@ public class Funcionario implements Serializable {
 		this.qtdHorasTrabalhoDia = qtdHorasTrabalhoDia;
 	}
 
-	@Column(nullable = false)
 	public Float getQtdHorasAlmoco() {
 		return qtdHorasAlmoco;
 	}
