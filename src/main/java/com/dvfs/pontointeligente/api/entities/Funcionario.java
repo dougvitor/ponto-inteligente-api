@@ -115,6 +115,11 @@ public class Funcionario implements Serializable {
 	public void setQtdHorasTrabalhoDia(Float qtdHorasTrabalhoDia) {
 		this.qtdHorasTrabalhoDia = qtdHorasTrabalhoDia;
 	}
+	
+	@Transient
+	public Optional<Float> getQtdHorasAlmocoOpt(){
+		return Optional.ofNullable(qtdHorasAlmoco);
+	}
 
 	public Float getQtdHorasAlmoco() {
 		return qtdHorasAlmoco;
