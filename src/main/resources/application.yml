@@ -11,6 +11,9 @@ spring:
         use_sql_comments: true
         format_sql: true
         type: trace
+
+paginacao:
+  qtd_por_pagina: 25
 ---
 
 spring:
