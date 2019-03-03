@@ -90,7 +90,7 @@ public class LancamentoController {
 		if(!lancamento.isPresent()) {
 			LOG.info("Lançamento não encontrado para o ID: {}", id);
 			response.getErrors().add("Lançamento não encontrado para o id " + id);
-			return ResponseEntity.badRequest().body(response);
+			return ResponseEntity.notFound().build();
 		}
 		
 		response.setData(this.parseLancamentoParaDto(lancamento.get()));
@@ -104,7 +104,6 @@ public class LancamentoController {
 		Response<LancamentoDto> response = new Response<>();
 		
 		validarFuncionario(lancamentoDto, result);
-		Lancamento lancamento = this.lancamentoService.persistir(this.parseDtoParaLancamento(lancamentoDto, result));
 		
 		if(result.hasErrors()) {
 			LOG.error("Erro validando lançamento: {}" , result.getAllErrors());
@@ -112,6 +111,7 @@ public class LancamentoController {
 			return ResponseEntity.badRequest().body(response);
 		}
 		
+		Lancamento lancamento = this.lancamentoService.persistir(this.parseDtoParaLancamento(lancamentoDto, result));
 		response.setData(this.parseLancamentoParaDto(lancamento));
 		return ResponseEntity.ok(response);
 	}
@@ -150,7 +150,7 @@ public class LancamentoController {
 		if(!lancamento.isPresent()) {
 			LOG.error("Erro ao remover devido ao lançamento ID: {} ser inválido." , id);
 			response.getErrors().add("Erro ao remover lançamento. Registro não encontrado para o id " + id);
-			return ResponseEntity.badRequest().body(response);
+			return ResponseEntity.notFound().build();
 		}
 		
 		this.lancamentoService.remover(id);
