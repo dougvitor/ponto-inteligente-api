@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Optional;
 
-import org.junit.Before;
+//import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
@@ -17,12 +17,13 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
+//import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+//import org.springframework.web.context.WebApplicationContext;
 
 import com.dvfs.pontointeligente.api.dtos.LancamentoDto;
 import com.dvfs.pontointeligente.api.entities.Funcionario;
@@ -39,10 +40,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @ActiveProfiles("test")
 public class LancamentoControllerTest {
 	
+	@Autowired
 	private MockMvc mvc;
 	
-	@Autowired
-	private WebApplicationContext context;
+/*	@Autowired
+	private WebApplicationContext context;*/
 	
 	@MockBean
 	private LancamentoService lancamentoService;
@@ -62,12 +64,13 @@ public class LancamentoControllerTest {
 	
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
-	@Before
+/*	@Before
 	public void setUp() {
 		mvc = MockMvcBuilders.webAppContextSetup(context).build();
-	}
+	}*/
 	
 	@Test
+	@WithMockUser
 	public void testCadastrarLancamento() throws Exception{
 		Lancamento lancamento = obterDadosLancamento();
 		
@@ -87,6 +90,7 @@ public class LancamentoControllerTest {
 	}
 	
 	@Test
+	@WithMockUser
 	public void testCadastrarLancamentoFuncionarioInvalido()throws Exception{
 		BDDMockito.given(this.funcionarioService.buscarPorId(Mockito.anyLong())).willReturn(Optional.empty());
 		
@@ -101,12 +105,23 @@ public class LancamentoControllerTest {
 	}
 	
 	@Test
+	@WithMockUser(username = "admin@dvfs.com.br", roles = {"ADMIN"})
 	public void testRemoverLancamento() throws Exception {
 		BDDMockito.given(this.lancamentoService.buscarPorId(Mockito.anyLong())).willReturn(Optional.of(new Lancamento()));
 		
 		mvc.perform(MockMvcRequestBuilders.delete(URL_BASE + ID_LANCAMENTO)
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk());
+	}
+	
+	@Test
+	@WithMockUser(username = "usuario@dvfs.com.br", roles = {"USUARIO"})
+	public void testRemoverLancamentoAcessoNegado() throws Exception {
+		BDDMockito.given(this.lancamentoService.buscarPorId(Mockito.anyLong())).willReturn(Optional.of(new Lancamento()));
+		
+		mvc.perform(MockMvcRequestBuilders.delete(URL_BASE + ID_LANCAMENTO)
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isForbidden());
 	}
 
 	private Lancamento obterDadosLancamento() {
