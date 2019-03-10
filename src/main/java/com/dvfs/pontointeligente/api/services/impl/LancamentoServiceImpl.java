@@ -5,9 +5,13 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.dvfs.pontointeligente.api.entities.Lancamento;
 import com.dvfs.pontointeligente.api.repositories.LancamentoRepository;
@@ -27,13 +31,14 @@ public class LancamentoServiceImpl implements LancamentoService{
 		return this.lancamentoRepository.findByFuncionarioId(funcionarioId, pageRequest);
 	}
 
-	@Override
+	@Cacheable("lancamentoPorId")
 	public Optional<Lancamento> buscarPorId(Long id) {
 		LOG.info("Buscando lancamentos pelo ID {}", id);
 		return this.lancamentoRepository.findById(id);
 	}
 
-	@Override
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	@CachePut("lancamentoPorId")
 	public Lancamento persistir(Lancamento lancamento) {
 		LOG.info("Persistindo o lançamento {}", lancamento);
 		return this.lancamentoRepository.save(lancamento);

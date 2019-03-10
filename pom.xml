@@ -103,6 +103,12 @@
 			 <version>2.9.2</version>
 		</dependency>
 		
+		<!-- EhCache -->
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache</artifactId>
+		</dependency>
+		
 	</dependencies>
 
 	<build>

@@ -2,15 +2,12 @@ package com.dvfs.pontointeligente.api.config;
 
 import java.util.Date;
 import java.util.List;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-
 import com.google.common.collect.Lists;
-
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -24,7 +21,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
-@Profile("prod")
+@Profile("dev")
 @EnableSwagger2
 public class SwaggerConfig {
 	
@@ -71,12 +68,12 @@ public class SwaggerConfig {
     }
 	
 	 private List<SecurityReference> defaultAuth() {
-	        AuthorizationScope authorizationScope
-	            = new AuthorizationScope("global", "accessEverything");
-	        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
-	        authorizationScopes[0] = authorizationScope;
-	        return Lists.newArrayList(
-	            new SecurityReference("JWT", authorizationScopes));
-	    }
+        AuthorizationScope authorizationScope
+            = new AuthorizationScope("global", "accessEverything");
+        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+        authorizationScopes[0] = authorizationScope;
+        return Lists.newArrayList(
+            new SecurityReference("JWT", authorizationScopes));
+    }
 
 }

@@ -1,7 +1,7 @@
 spring:
   profiles:
     active:
-    - prod
+    - dev
   jpa:
     properties:
       hibernate:
@@ -21,7 +21,7 @@ jwt:
 ---
 
 spring:
-  profiles: prod
+  profiles: dev
   jpa:
     hibernate:
       ddl-auto: none
@@ -49,5 +49,10 @@ spring:
     
   flyway:
     enabled: false
+    
+---
+spring:
+  profiles: prod
+
     
     
